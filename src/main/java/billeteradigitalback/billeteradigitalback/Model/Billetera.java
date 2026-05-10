@@ -1,21 +1,27 @@
-package billeteradigitalback.billeteradigitalback;
+package billeteradigitalback.billeteradigitalback.Model;
 
 import java.util.ArrayList;
 
 public class Billetera {
     private String id;
     private String nombre;
-    //tipo billetera
+    private Enum TipoBilletera;
     private double saldo;
-    //es necesaria la clave?
-    //Usuario?
+    private Usuario usuario;
     private boolean activa;
-    //fecha de creacion?
     private boolean topeTransacciones;
     ArrayList<Transaccion> transacciones;
 
-    //falta contructor
-
+    public Billetera(String id, String nombre, Enum tipoBilletera, Usuario usuario, boolean activa, boolean topeTransacciones, ArrayList<Transaccion> transacciones) {
+        this.saldo = 0;
+        this.id = id;
+        this.nombre = nombre;
+        TipoBilletera = tipoBilletera;
+        this.usuario = usuario;
+        this.activa = activa;
+        this.topeTransacciones = topeTransacciones;
+        this.transacciones = transacciones;
+    }
 
     public String getId() {
         return id;
@@ -63,5 +69,21 @@ public class Billetera {
 
     public void setTransacciones(ArrayList<Transaccion> transacciones) {
         this.transacciones = transacciones;
+    }
+
+    public Enum getTipoBilletera() {
+        return TipoBilletera;
+    }
+
+    public void setTipoBilletera(Enum tipoBilletera) {
+        TipoBilletera = tipoBilletera;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

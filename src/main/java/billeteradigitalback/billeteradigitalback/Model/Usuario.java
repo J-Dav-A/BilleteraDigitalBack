@@ -1,4 +1,4 @@
-package billeteradigitalback.billeteradigitalback;
+package billeteradigitalback.billeteradigitalback.Model;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class Usuario {
     private String correo; //Condicional?
     private String contrasenia;
     private String numeroTelefono;
-    private int puntos;
+    private int puntosAcumulados;
     private int nivelUsuario;
     //rol usuario?
     //activo?
@@ -25,7 +25,7 @@ public class Usuario {
         this.correo = correo;
         this.contrasenia = contrasenia;
         this.numeroTelefono = numeroTelefono;
-        this.puntos = 0;
+        this.puntosAcumulados = 0;
         this.nivelUsuario = 1;
         this.billeteras = new ArrayList<>();
     }
@@ -70,12 +70,12 @@ public class Usuario {
         this.numeroTelefono = numeroTelefono;
     }
 
-    public int getPuntos() {
-        return puntos;
+    public int getPuntosAcumulados() {
+        return puntosAcumulados;
     }
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
+    public void setPuntosAcumulados(int puntosAcumulados) {
+        this.puntosAcumulados = puntosAcumulados;
     }
 
     public int getNivelUsuario() {
@@ -102,7 +102,7 @@ public class Usuario {
         Usuario.listaUsuarios = usuariosRegistrados;
     }
 
-    //Metodo registrarse por primera ves
+    //Metodo registrarse por primera ves (esta bien pero aqui no va)
     public static Usuario registrarse(String id, String nombre, String correo, String contrasenia, String numeroTelefono) {
 
         boolean existeUsuario = true;
@@ -134,7 +134,7 @@ public class Usuario {
         return nuevo;
     }
 
-    //Metodo para iniciar sesion
+    //Metodo para iniciar sesion (esta bien pero aqui no va)
     public static boolean iniciarSesion(String correo, String contrasenia) {
 
         boolean usuarioEncontrado = false;
