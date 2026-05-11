@@ -1,40 +1,71 @@
 package billeteradigitalback.billeteradigitalback.Model;
 
-import java.util.ArrayList;
+import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
-    private String id;
+
+    // =========================
+    // ATRIBUTOS
+    // =========================
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String nombre;
-    private String correo; //Condicional?
-    private String contrasenia;
-    private String numeroTelefono;
-    private int puntosAcumulados;
-    private int nivelUsuario;
-    //rol usuario?
-    //activo?
-    //para que la fecha de registro?
-    ArrayList<Billetera> billeteras;
 
-    // Lista donde se guardan todos los usuarios registrados
-    static ArrayList<Usuario> listaUsuarios= new ArrayList<>();
+    @Column(nullable = false, unique = true)
+    private String correo;
 
-    // Constructor
-    public Usuario(String id, String nombre, String correo, String contrasenia, String numeroTelefono) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasenia = contrasenia;
-        this.numeroTelefono = numeroTelefono;
-        this.puntosAcumulados = 0;
-        this.nivelUsuario = 1;
-        this.billeteras = new ArrayList<>();
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NivelUsuario nivelUsuario;
+
+    @Column(nullable = false)
+    private LocalDateTime fechaRegistro;
+
+    @Column(nullable = false)
+    private boolean activo;
+
+    // =========================
+    // CONSTRUCTORES
+    // =========================
+
+    public Usuario() {
     }
 
-    public String getId() {
+    public Usuario(String nombre,
+                   String correo,
+                   String password,
+                   NivelUsuario nivelUsuario,
+                   LocalDateTime fechaRegistro,
+                   boolean activo) {
+
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.nivelUsuario = nivelUsuario;
+        this.fechaRegistro = fechaRegistro;
+        this.activo = activo;
+    }
+
+    // =========================
+    // GETTERS Y SETTERS
+    // =========================
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,56 +85,56 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getNumeroTelefono() {
-        return numeroTelefono;
-    }
-
-    public void setNumeroTelefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
-    }
-
-    public int getPuntosAcumulados() {
-        return puntosAcumulados;
-    }
-
-    public void setPuntosAcumulados(int puntosAcumulados) {
-        this.puntosAcumulados = puntosAcumulados;
-    }
-
-    public int getNivelUsuario() {
+    public NivelUsuario getNivelUsuario() {
         return nivelUsuario;
     }
 
-    public void setNivelUsuario(int nivelUsuario) {
+    public void setNivelUsuario(NivelUsuario nivelUsuario) {
         this.nivelUsuario = nivelUsuario;
     }
 
-    public ArrayList<Billetera> getBilleteras() {
-        return billeteras;
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setBilleteras(ArrayList<Billetera> billeteras) {
-        this.billeteras = billeteras;
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
-    public static ArrayList<Usuario> getUsuariosRegistrados() {
-        return listaUsuarios;
+    public boolean isActivo() {
+        return activo;
     }
 
-    public static void setUsuariosRegistrados(ArrayList<Usuario> usuariosRegistrados) {
-        Usuario.listaUsuarios = usuariosRegistrados;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
+    // =========================
+    // TO STRING
+    // =========================
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", correo='" + correo + '\'' +
+                ", nivelUsuario=" + nivelUsuario +
+                ", fechaRegistro=" + fechaRegistro +
+                ", activo=" + activo +
+                '}';
+    }
+}
     //Metodo registrarse por primera ves (esta bien pero aqui no va)
-    public static Usuario registrarse(String id, String nombre, String correo, String contrasenia, String numeroTelefono) {
+    /*public static Usuario registrarse(String id, String nombre, String correo, String contrasenia, String numeroTelefono) {
 
         boolean existeUsuario = true;
 
@@ -126,7 +157,8 @@ public class Usuario {
                 nombre,
                 correo,
                 contrasenia,
-                numeroTelefono
+                numeroTelefono,
+                NivelUsuario.BRONCE
         );
 
         listaUsuarios.add(nuevo);
@@ -160,4 +192,4 @@ public class Usuario {
 
         return true;
     }
-}
+}*/

@@ -1,22 +1,49 @@
 package billeteradigitalback.billeteradigitalback.Model;
 
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "beneficios")
 public class Beneficio {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 200)
     private String descripcion;
+
+    @Column(nullable = false)
     private int puntosNecesarios;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NivelUsuario nivelRequerido;
+
+    @Column(nullable = false)
     private boolean activo;
 
-    //falta constructor
-
-    public String getId() {
-        return id;
+    // Constructor vacío
+    public Beneficio() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    // Constructor completo
+    public Beneficio(String descripcion,
+                     int puntosNecesarios,
+                     NivelUsuario nivelRequerido,
+                     boolean activo) {
+
+        this.descripcion = descripcion;
+        this.puntosNecesarios = puntosNecesarios;
+        this.nivelRequerido = nivelRequerido;
+        this.activo = activo;
+    }
+
+    // GETTERS Y SETTERS
+
+    public Long getId() {
+        return id;
     }
 
     public String getDescripcion() {

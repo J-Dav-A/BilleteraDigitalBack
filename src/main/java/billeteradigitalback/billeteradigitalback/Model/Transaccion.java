@@ -1,26 +1,79 @@
 package billeteradigitalback.billeteradigitalback.Model;
 
+import billeteradigitalback.billeteradigitalback.Enums.EstadoTransaccion;
+import billeteradigitalback.billeteradigitalback.Enums.NivelRiesgo;
+import billeteradigitalback.billeteradigitalback.Enums.TipoTransaccion;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "transacciones")
 public class Transaccion {
-    private String PID;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pid;
+
+    @Column(nullable = false)
     private LocalDateTime fecha;
-    private Enum TipoTransaccion;
-    private int valor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoTransaccion tipoTransaccion;
+
+    @Column(nullable = false)
+    private BigDecimal valor;
+
+    @ManyToOne
+    @JoinColumn(name = "billetera_origen_id")
     private Billetera billeteraOrigen;
+
+    @ManyToOne
+    @JoinColumn(name = "billetera_destino_id")
     private Billetera billeteraDestino;
-    private boolean estado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoTransaccion estado;
+
+    @Column(nullable = false)
     private int puntosGenerados;
-    //Nivel de riesgo si va en esta clase??
 
-    //falta definir el constructor
+    @Enumerated(EnumType.STRING)
+    private NivelRiesgo nivelRiesgo;
 
-    public String getPID() {
-        return PID;
+    // Constructor vacío
+    public Transaccion() {
     }
 
-    public void setPID(String PID) {
-        this.PID = PID;
+    // Constructor completo
+    public Transaccion(LocalDateTime fecha,
+                       TipoTransaccion tipoTransaccion,
+                       BigDecimal valor,
+                       Billetera billeteraOrigen,
+                       Billetera billeteraDestino,
+                       EstadoTransaccion estado,
+                       int puntosGenerados,
+                       NivelRiesgo nivelRiesgo) {
+
+        this.fecha = fecha;
+        this.tipoTransaccion = tipoTransaccion;
+        this.valor = valor;
+        this.billeteraOrigen = billeteraOrigen;
+        this.billeteraDestino = billeteraDestino;
+        this.estado = estado;
+        this.puntosGenerados = puntosGenerados;
+        this.nivelRiesgo = nivelRiesgo;
+    }
+
+    public Long getPid() {
+        return pid;
+    }
+
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     public LocalDateTime getFecha() {
@@ -31,19 +84,19 @@ public class Transaccion {
         this.fecha = fecha;
     }
 
-    public Enum getTipoTransaccion() {
-        return TipoTransaccion;
+    public TipoTransaccion getTipoTransaccion() {
+        return tipoTransaccion;
     }
 
-    public void setTipoTransaccion(Enum tipoTransaccion) {
-        TipoTransaccion = tipoTransaccion;
+    public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
+        this.tipoTransaccion = tipoTransaccion;
     }
 
-    public int getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
@@ -63,11 +116,11 @@ public class Transaccion {
         this.billeteraDestino = billeteraDestino;
     }
 
-    public boolean isEstado() {
+    public EstadoTransaccion getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(EstadoTransaccion estado) {
         this.estado = estado;
     }
 
@@ -77,5 +130,13 @@ public class Transaccion {
 
     public void setPuntosGenerados(int puntosGenerados) {
         this.puntosGenerados = puntosGenerados;
+    }
+
+    public NivelRiesgo getNivelRiesgo() {
+        return nivelRiesgo;
+    }
+
+    public void setNivelRiesgo(NivelRiesgo nivelRiesgo) {
+        this.nivelRiesgo = nivelRiesgo;
     }
 }

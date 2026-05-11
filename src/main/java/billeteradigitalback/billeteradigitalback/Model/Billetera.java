@@ -1,34 +1,67 @@
 package billeteradigitalback.billeteradigitalback.Model;
 
+import billeteradigitalback.billeteradigitalback.Enums.TipoBilletera;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "billeteras")
 public class Billetera {
-    private String id;
-    private String nombre;
-    private Enum TipoBilletera;
-    private double saldo;
-    private Usuario usuario;
-    private boolean activa;
-    private boolean topeTransacciones;
-    ArrayList<Transaccion> transacciones;
 
-    public Billetera(String id, String nombre, Enum tipoBilletera, Usuario usuario, boolean activa, boolean topeTransacciones, ArrayList<Transaccion> transacciones) {
-        this.saldo = 0;
-        this.id = id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoBilletera tipoBilletera;
+
+    @Column(nullable = false)
+    private BigDecimal saldo;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    @Column(nullable = false)
+    private boolean activa;
+
+    @Column(nullable = false)
+    private BigDecimal limiteTransaccion;
+
+    //Corregir porque esta estructura toca corregirla
+    @OneToMany(mappedBy = "billeteraOrigen")
+    private List<Transaccion> transacciones = new ArrayList<>();
+
+    // Constructor vacío
+    public Billetera() {
+    }
+
+    // Constructor completo
+    public Billetera(String nombre,
+                     TipoBilletera tipoBilletera,
+                     Usuario usuario,
+                     boolean activa,
+                     BigDecimal limiteTransaccion) {
+
         this.nombre = nombre;
-        TipoBilletera = tipoBilletera;
+        this.tipoBilletera = tipoBilletera;
         this.usuario = usuario;
         this.activa = activa;
-        this.topeTransacciones = topeTransacciones;
-        this.transacciones = transacciones;
+        this.limiteTransaccion = limiteTransaccion;
+        this.saldo = BigDecimal.ZERO;
     }
 
-    public String getId() {
+    // GETTERS Y SETTERS
+
+    public Long getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -39,12 +72,28 @@ public class Billetera {
         this.nombre = nombre;
     }
 
-    public double getSaldo() {
+    public TipoBilletera getTipoBilletera() {
+        return tipoBilletera;
+    }
+
+    public void setTipoBilletera(TipoBilletera tipoBilletera) {
+        this.tipoBilletera = tipoBilletera;
+    }
+
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public boolean isActiva() {
@@ -55,35 +104,19 @@ public class Billetera {
         this.activa = activa;
     }
 
-    public boolean isTopeTransacciones() {
-        return topeTransacciones;
+    public BigDecimal getLimiteTransaccion() {
+        return limiteTransaccion;
     }
 
-    public void setTopeTransacciones(boolean topeTransacciones) {
-        this.topeTransacciones = topeTransacciones;
+    public void setLimiteTransaccion(BigDecimal limiteTransaccion) {
+        this.limiteTransaccion = limiteTransaccion;
     }
 
-    public ArrayList<Transaccion> getTransacciones() {
+    public List<Transaccion> getTransacciones() {
         return transacciones;
     }
 
-    public void setTransacciones(ArrayList<Transaccion> transacciones) {
+    public void setTransacciones(List<Transaccion> transacciones) {
         this.transacciones = transacciones;
-    }
-
-    public Enum getTipoBilletera() {
-        return TipoBilletera;
-    }
-
-    public void setTipoBilletera(Enum tipoBilletera) {
-        TipoBilletera = tipoBilletera;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }
