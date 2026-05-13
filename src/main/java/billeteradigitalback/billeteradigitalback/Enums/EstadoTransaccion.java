@@ -4,5 +4,5 @@ public enum EstadoTransaccion {
     PENDIENTE,
     EJECUTADA,
     CANCELADA,
-    FALLIDA
+    COMPLETADA, REVERTIDA, FALLIDA
 }

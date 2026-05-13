@@ -2,8 +2,11 @@ package billeteradigitalback.billeteradigitalback.Enums;
 
 public enum TipoAlerta {
     SALDO_BAJO,
-    TRANSACCION_RECHAZADA,
+    OPERACION_RECHAZADA,
     ASCENSO_NIVEL,
     PAGO_PROGRAMADO,
-    ALERTA_SEGURIDAD
+    OPERACION_PROGRAMADA_PROXIMA,
+    CANJE_BENEFICIO,
+    INFO,
+    OPERACION_EXITOSA, ALERTA_SEGURIDAD
 }

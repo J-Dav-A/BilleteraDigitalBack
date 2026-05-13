@@ -25,6 +25,9 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private int puntos;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NivelUsuario nivelUsuario;
@@ -44,7 +47,7 @@ public class Usuario {
 
     public Usuario(String nombre,
                    String correo,
-                   String password,
+                   String password, int puntos,
                    NivelUsuario nivelUsuario,
                    LocalDateTime fechaRegistro,
                    boolean activo) {
@@ -52,6 +55,7 @@ public class Usuario {
         this.nombre = nombre;
         this.correo = correo;
         this.password = password;
+        this.puntos = puntos;
         this.nivelUsuario = nivelUsuario;
         this.fechaRegistro = fechaRegistro;
         this.activo = activo;
@@ -117,6 +121,14 @@ public class Usuario {
         this.activo = activo;
     }
 
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
     // =========================
     // TO STRING
     // =========================
@@ -128,6 +140,7 @@ public class Usuario {
                 ", nombre='" + nombre + '\'' +
                 ", correo='" + correo + '\'' +
                 ", nivelUsuario=" + nivelUsuario +
+                ", Puntos=" + puntos +
                 ", fechaRegistro=" + fechaRegistro +
                 ", activo=" + activo +
                 '}';

@@ -37,7 +37,7 @@ public class Billetera {
 
     //Corregir porque esta estructura toca corregirla
     @OneToMany(mappedBy = "billeteraOrigen")
-    private List<Transaccion> transacciones = new ArrayList<>();
+    private List<Transaccion> transaccionesOrigen = new ArrayList<>();
 
     // Constructor vacío
     public Billetera() {
@@ -113,10 +113,10 @@ public class Billetera {
     }
 
     public List<Transaccion> getTransacciones() {
-        return transacciones;
+        return transaccionesOrigen;
     }
 
-    public void setTransacciones(List<Transaccion> transacciones) {
-        this.transacciones = transacciones;
+    public void setTransacciones(List<Transaccion> transaccionesOrigen) {
+        this.transaccionesOrigen = transaccionesOrigen;
     }
 }
