@@ -2,6 +2,7 @@ package billeteradigitalback.billeteradigitalback.Service;
 
 import billeteradigitalback.billeteradigitalback.Enums.*;
 import billeteradigitalback.billeteradigitalback.Model.Billetera;
+import billeteradigitalback.billeteradigitalback.Model.OperacionProgramada;
 import billeteradigitalback.billeteradigitalback.Model.Transaccion;
 import billeteradigitalback.billeteradigitalback.Model.Usuario;
 import billeteradigitalback.billeteradigitalback.Repository.TransaccionRepository;
@@ -46,7 +47,7 @@ public class TransaccionService {
     /**
      * PILA — ArrayDeque<Transaccion> usada como stack (LIFO)
      * Una pila por usuario: clave = usuarioId, valor = su pila.
-     *
+
      * Cada transacción ejecutada se apila con push().
      * Al revertir, se hace pop() para obtener la última — O(1).
      * Solo se apilan transacciones REVERSIBLES (no retiros de seguridad, etc.)
@@ -59,7 +60,7 @@ public class TransaccionService {
      * Clave externa = usuarioId origen
      * Clave interna = usuarioId destino
      * int[] = {cantidadTransferencias, montoTotal (como long de centavos)}
-     *
+
      * Permite:
      * - Detectar rutas frecuentes de dinero
      * - Encontrar ciclos (posible fraude)
@@ -461,9 +462,17 @@ public class TransaccionService {
                                              Billetera origen, Billetera destino,
                                              String descripcion) {
         return new Transaccion(
-                LocalDateTime.now(), tipo, valor,
-                origen, destino,
-                EstadoTransaccion.COMPLETADA, 0, NivelRiesgo.NINGUNO);
+                LocalDateTime.now(),
+                tipo,
+                valor,
+                EstadoTransaccion.COMPLETADA,
+                0,
+                NivelRiesgo.NINGUNO,
+                origen,
+                destino,
+                null,
+                null
+                );
     }
 
     /**

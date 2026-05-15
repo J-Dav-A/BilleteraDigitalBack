@@ -76,7 +76,7 @@ public class BilleteraService {
                     "Ya tienes una billetera llamada '" + nombre + "'");
         }
 
-        Billetera billetera = new Billetera(nombre, tipo, usuario, true, limite);
+        Billetera billetera = new Billetera(nombre, tipo, BigDecimal.ZERO, true, limite, usuario);
         Billetera guardada = billeteraRepository.save(billetera);
 
         // Insertar en cache — O(1)

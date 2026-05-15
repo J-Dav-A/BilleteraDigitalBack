@@ -35,12 +35,8 @@ public class Alerta {
     }
 
     // Constructor completo
-    public Alerta(String mensaje,
-                  TipoAlerta tipoAlerta,
-                  LocalDateTime fecha,
-                  boolean leida,
-                  Usuario usuario) {
 
+    public Alerta(String mensaje, TipoAlerta tipoAlerta, LocalDateTime fecha, boolean leida, Usuario usuario) {
         this.mensaje = mensaje;
         this.tipoAlerta = tipoAlerta;
         this.fecha = fecha;

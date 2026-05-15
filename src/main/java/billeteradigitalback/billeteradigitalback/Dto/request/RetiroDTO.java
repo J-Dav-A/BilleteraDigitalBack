@@ -1,15 +1,19 @@
 package billeteradigitalback.billeteradigitalback.Dto.request;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
 
 public class RetiroDTO {
 
     @NotNull
     private Long billeteraId;
 
-    @Min(1)
-    private double valor;
+    @NotNull
+    @DecimalMin("1.0")
+    private BigDecimal valor;
 
     public RetiroDTO() {}
 
@@ -21,11 +25,11 @@ public class RetiroDTO {
         this.billeteraId = billeteraId;
     }
 
-    public double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 }

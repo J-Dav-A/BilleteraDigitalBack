@@ -26,14 +26,6 @@ public class Transaccion {
     @Column(nullable = false)
     private BigDecimal valor;
 
-    @ManyToOne
-    @JoinColumn(name = "billetera_origen_id")
-    private Billetera billeteraOrigen;
-
-    @ManyToOne
-    @JoinColumn(name = "billetera_destino_id")
-    private Billetera billeteraDestino;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoTransaccion estado;
@@ -42,38 +34,44 @@ public class Transaccion {
     private int puntosGenerados;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NivelRiesgo nivelRiesgo;
+
+    @ManyToOne
+    @JoinColumn(name = "billetera_origen_id")
+    private Billetera billeteraOrigen;
+
+    @ManyToOne
+    @JoinColumn(name = "billetera_destino_id")
+    private Billetera billeteraDestino;
+
+    @ManyToOne
+    @JoinColumn(name = "operacion_programada_id")
+    private OperacionProgramada operacionProgramada;
+
+    @OneToOne(mappedBy = "transaccion", cascade = CascadeType.ALL)
+    private AuditoriaRiesgo auditoriaRiesgo;
 
     // Constructor vacío
     public Transaccion() {
     }
 
     // Constructor completo
-    public Transaccion(LocalDateTime fecha,
-                       TipoTransaccion tipoTransaccion,
-                       BigDecimal valor,
-                       Billetera billeteraOrigen,
-                       Billetera billeteraDestino,
-                       EstadoTransaccion estado,
-                       int puntosGenerados,
-                       NivelRiesgo nivelRiesgo) {
-
+    public Transaccion(LocalDateTime fecha, TipoTransaccion tipoTransaccion, BigDecimal valor, EstadoTransaccion estado, int puntosGenerados, NivelRiesgo nivelRiesgo, Billetera billeteraOrigen, Billetera billeteraDestino, OperacionProgramada operacionProgramada, AuditoriaRiesgo auditoriaRiesgo) {
         this.fecha = fecha;
         this.tipoTransaccion = tipoTransaccion;
         this.valor = valor;
-        this.billeteraOrigen = billeteraOrigen;
-        this.billeteraDestino = billeteraDestino;
         this.estado = estado;
         this.puntosGenerados = puntosGenerados;
         this.nivelRiesgo = nivelRiesgo;
+        this.billeteraOrigen = billeteraOrigen;
+        this.billeteraDestino = billeteraDestino;
+        this.operacionProgramada = operacionProgramada;
+        this.auditoriaRiesgo = auditoriaRiesgo;
     }
 
     public Long getPid() {
         return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
     }
 
     public LocalDateTime getFecha() {
@@ -100,22 +98,6 @@ public class Transaccion {
         this.valor = valor;
     }
 
-    public Billetera getBilleteraOrigen() {
-        return billeteraOrigen;
-    }
-
-    public void setBilleteraOrigen(Billetera billeteraOrigen) {
-        this.billeteraOrigen = billeteraOrigen;
-    }
-
-    public Billetera getBilleteraDestino() {
-        return billeteraDestino;
-    }
-
-    public void setBilleteraDestino(Billetera billeteraDestino) {
-        this.billeteraDestino = billeteraDestino;
-    }
-
     public EstadoTransaccion getEstado() {
         return estado;
     }
@@ -138,5 +120,37 @@ public class Transaccion {
 
     public void setNivelRiesgo(NivelRiesgo nivelRiesgo) {
         this.nivelRiesgo = nivelRiesgo;
+    }
+
+    public Billetera getBilleteraOrigen() {
+        return billeteraOrigen;
+    }
+
+    public void setBilleteraOrigen(Billetera billeteraOrigen) {
+        this.billeteraOrigen = billeteraOrigen;
+    }
+
+    public Billetera getBilleteraDestino() {
+        return billeteraDestino;
+    }
+
+    public void setBilleteraDestino(Billetera billeteraDestino) {
+        this.billeteraDestino = billeteraDestino;
+    }
+
+    public OperacionProgramada getOperacionProgramada() {
+        return operacionProgramada;
+    }
+
+    public void setOperacionProgramada(OperacionProgramada operacionProgramada) {
+        this.operacionProgramada = operacionProgramada;
+    }
+
+    public AuditoriaRiesgo getAuditoriaRiesgo() {
+        return auditoriaRiesgo;
+    }
+
+    public void setAuditoriaRiesgo(AuditoriaRiesgo auditoriaRiesgo) {
+        this.auditoriaRiesgo = auditoriaRiesgo;
     }
 }

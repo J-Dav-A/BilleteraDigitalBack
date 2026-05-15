@@ -3,6 +3,10 @@ package billeteradigitalback.billeteradigitalback.Model;
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -38,6 +42,18 @@ public class Usuario {
     @Column(nullable = false)
     private boolean activo;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<Billetera> billeteras = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Alerta> alertas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<CanjeoBeneficio> canjeos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<AuditoriaRiesgo> auditorias = new ArrayList<>();
+
     // =========================
     // CONSTRUCTORES
     // =========================
@@ -45,13 +61,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre,
-                   String correo,
-                   String password, int puntos,
-                   NivelUsuario nivelUsuario,
-                   LocalDateTime fechaRegistro,
-                   boolean activo) {
-
+    public Usuario(String nombre, String correo, String password, int puntos, NivelUsuario nivelUsuario, LocalDateTime fechaRegistro, boolean activo) {
         this.nombre = nombre;
         this.correo = correo;
         this.password = password;
@@ -67,10 +77,6 @@ public class Usuario {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -97,6 +103,14 @@ public class Usuario {
         this.password = password;
     }
 
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
     public NivelUsuario getNivelUsuario() {
         return nivelUsuario;
     }
@@ -121,13 +135,38 @@ public class Usuario {
         this.activo = activo;
     }
 
-    public int getPuntos() {
-        return puntos;
+    public Set<Billetera> getBilleteras() {
+        return billeteras;
     }
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
+    public void setBilleteras(Set<Billetera> billeteras) {
+        this.billeteras = billeteras;
     }
+
+    public List<Alerta> getAlertas() {
+        return alertas;
+    }
+
+    public void setAlertas(List<Alerta> alertas) {
+        this.alertas = alertas;
+    }
+
+    public List<CanjeoBeneficio> getCanjeos() {
+        return canjeos;
+    }
+
+    public void setCanjeos(List<CanjeoBeneficio> canjeos) {
+        this.canjeos = canjeos;
+    }
+
+    public List<AuditoriaRiesgo> getAuditorias() {
+        return auditorias;
+    }
+
+    public void setAuditorias(List<AuditoriaRiesgo> auditorias) {
+        this.auditorias = auditorias;
+    }
+
 
     // =========================
     // TO STRING
@@ -146,63 +185,3 @@ public class Usuario {
                 '}';
     }
 }
-    //Metodo registrarse por primera ves (esta bien pero aqui no va)
-    /*public static Usuario registrarse(String id, String nombre, String correo, String contrasenia, String numeroTelefono) {
-
-        boolean existeUsuario = true;
-
-        while (existeUsuario) {
-
-            existeUsuario = false;
-
-            for (Usuario usuario : listaUsuarios) {
-
-                if (usuario.getCorreo().equals(correo)) {
-
-                    System.out.println("Ese correo ya existe");
-                    return null;
-                }
-            }
-        }
-
-        Usuario nuevo = new Usuario(
-                id,
-                nombre,
-                correo,
-                contrasenia,
-                numeroTelefono,
-                NivelUsuario.BRONCE
-        );
-
-        listaUsuarios.add(nuevo);
-        System.out.println("Usuario registrado correctamente");
-        return nuevo;
-    }
-
-    //Metodo para iniciar sesion (esta bien pero aqui no va)
-    public static boolean iniciarSesion(String correo, String contrasenia) {
-
-        boolean usuarioEncontrado = false;
-
-        while (!usuarioEncontrado) {
-
-            for (Usuario usuario : listaUsuarios) {
-
-                if (usuario.getCorreo().equals(correo)
-                        && usuario.getContrasenia().equals(contrasenia)) {
-
-                    System.out.println("Inicio de sesión exitoso");
-                    usuarioEncontrado = true;
-                    break;
-                }
-            }
-
-            if (!usuarioEncontrado) {
-                System.out.println("Usuario o contraseña incorrectos");
-                return false;
-            }
-        }
-
-        return true;
-    }
-}*/

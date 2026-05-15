@@ -2,8 +2,10 @@ package billeteradigitalback.billeteradigitalback.Service;
 
 import billeteradigitalback.billeteradigitalback.Enums.EstadoOperacionProgramada;
 import billeteradigitalback.billeteradigitalback.Enums.TipoAlerta;
+import billeteradigitalback.billeteradigitalback.Enums.TipoTransaccion;
 import billeteradigitalback.billeteradigitalback.Model.Billetera;
 import billeteradigitalback.billeteradigitalback.Model.OperacionProgramada;
+import billeteradigitalback.billeteradigitalback.Model.Usuario;
 import billeteradigitalback.billeteradigitalback.Repository.OperacionProgramadaRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Lazy;
@@ -276,12 +278,13 @@ public class OperacionProgramadaService {
                 original.getMonto(),
                 calcularPrioridad(original.getFechaFutura()
                         .plusDays(original.getDiasRecurrencia())),
-                EstadoOperacionProgramada.PENDIENTE,
-                original.getBilleteraOrigen(),
-                original.getBilleteraDestino(),
                 original.getDescripcion(),
-                true,
-                original.getDiasRecurrencia()
+                original.isRecurrente(),
+                original.getDiasRecurrencia(),
+                EstadoOperacionProgramada.PENDIENTE,
+                original.getUsuario(),
+                original.getBilleteraOrigen(),
+                original.getBilleteraDestino()
         );
 
         OperacionProgramada guardada = operacionRepository.save(siguiente);

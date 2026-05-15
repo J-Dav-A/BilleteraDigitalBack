@@ -1,4 +1,4 @@
-package billeteradigitalback.billeteradigitalback.Service;
+package billeteradigitalback.billeteradigitalback.Autenticacion;
 
 import billeteradigitalback.billeteradigitalback.Model.Usuario;
 import billeteradigitalback.billeteradigitalback.Repository.UsuarioRepository;

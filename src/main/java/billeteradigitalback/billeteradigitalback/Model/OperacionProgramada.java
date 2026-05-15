@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "operaciones_programadas")
@@ -28,9 +30,22 @@ public class OperacionProgramada {
     @Column(nullable = false)
     private int prioridad;
 
+    @Column(length = 200)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private boolean recurrente;
+
+    @Column(nullable = false)
+    private int diasRecurrencia;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoOperacionProgramada estado;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "billetera_origen_id")
@@ -40,40 +55,26 @@ public class OperacionProgramada {
     @JoinColumn(name = "billetera_destino_id")
     private Billetera billeteraDestino;
 
-    @Column(length = 200)
-    private String descripcion;
-
-    @Column(nullable = false)
-    private boolean recurrente;
-
-    private int diasRecurrencia;
+    @OneToMany(mappedBy = "operacionProgramada")
+    private List<Transaccion> transaccionesGeneradas = new ArrayList<>();;
 
     // Constructor vacío
     public OperacionProgramada() {
     }
 
     // Constructor completo
-    public OperacionProgramada(LocalDateTime fechaFutura,
-                               TipoTransaccion tipoTransaccion,
-                               BigDecimal monto,
-                               int prioridad,
-                               EstadoOperacionProgramada estado,
-                               Billetera billeteraOrigen,
-                               Billetera billeteraDestino,
-                               String descripcion,
-                               boolean recurrente,
-                               int diasRecurrencia) {
-
+    public OperacionProgramada(LocalDateTime fechaFutura, TipoTransaccion tipoTransaccion, BigDecimal monto, int prioridad, String descripcion, boolean recurrente, int diasRecurrencia, EstadoOperacionProgramada estado, Usuario usuario, Billetera billeteraOrigen, Billetera billeteraDestino) {
         this.fechaFutura = fechaFutura;
         this.tipoTransaccion = tipoTransaccion;
         this.monto = monto;
         this.prioridad = prioridad;
-        this.estado = estado;
-        this.billeteraOrigen = billeteraOrigen;
-        this.billeteraDestino = billeteraDestino;
         this.descripcion = descripcion;
         this.recurrente = recurrente;
         this.diasRecurrencia = diasRecurrencia;
+        this.estado = estado;
+        this.usuario = usuario;
+        this.billeteraOrigen = billeteraOrigen;
+        this.billeteraDestino = billeteraDestino;
     }
 
     public Long getId() {
@@ -116,30 +117,6 @@ public class OperacionProgramada {
         this.prioridad = prioridad;
     }
 
-    public EstadoOperacionProgramada getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoOperacionProgramada estado) {
-        this.estado = estado;
-    }
-
-    public Billetera getBilleteraOrigen() {
-        return billeteraOrigen;
-    }
-
-    public void setBilleteraOrigen(Billetera billeteraOrigen) {
-        this.billeteraOrigen = billeteraOrigen;
-    }
-
-    public Billetera getBilleteraDestino() {
-        return billeteraDestino;
-    }
-
-    public void setBilleteraDestino(Billetera billeteraDestino) {
-        this.billeteraDestino = billeteraDestino;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -162,5 +139,45 @@ public class OperacionProgramada {
 
     public void setDiasRecurrencia(int diasRecurrencia) {
         this.diasRecurrencia = diasRecurrencia;
+    }
+
+    public EstadoOperacionProgramada getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoOperacionProgramada estado) {
+        this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Billetera getBilleteraOrigen() {
+        return billeteraOrigen;
+    }
+
+    public void setBilleteraOrigen(Billetera billeteraOrigen) {
+        this.billeteraOrigen = billeteraOrigen;
+    }
+
+    public Billetera getBilleteraDestino() {
+        return billeteraDestino;
+    }
+
+    public void setBilleteraDestino(Billetera billeteraDestino) {
+        this.billeteraDestino = billeteraDestino;
+    }
+
+    public List<Transaccion> getTransaccionesGeneradas() {
+        return transaccionesGeneradas;
+    }
+
+    public void setTransaccionesGeneradas(List<Transaccion> transaccionesGeneradas) {
+        this.transaccionesGeneradas = transaccionesGeneradas;
     }
 }

@@ -3,6 +3,9 @@ package billeteradigitalback.billeteradigitalback.Model;
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "beneficios")
 public class Beneficio {
@@ -24,21 +27,21 @@ public class Beneficio {
     @Column(nullable = false)
     private boolean activo;
 
+    @OneToMany(mappedBy = "beneficio")
+    private List<CanjeoBeneficio> canjeos = new ArrayList<>();
+
     // Constructor vacío
-    public Beneficio() {
-    }
+    public Beneficio() {}
 
     // Constructor completo
-    public Beneficio(String descripcion,
-                     int puntosNecesarios,
-                     NivelUsuario nivelRequerido,
-                     boolean activo) {
 
+    public Beneficio(String descripcion, int puntosNecesarios, NivelUsuario nivelRequerido, boolean activo) {
         this.descripcion = descripcion;
         this.puntosNecesarios = puntosNecesarios;
         this.nivelRequerido = nivelRequerido;
         this.activo = activo;
     }
+
 
     // GETTERS Y SETTERS
 
@@ -76,5 +79,13 @@ public class Beneficio {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public List<CanjeoBeneficio> getCanjeos() {
+        return canjeos;
+    }
+
+    public void setCanjeos(List<CanjeoBeneficio> canjeos) {
+        this.canjeos = canjeos;
     }
 }

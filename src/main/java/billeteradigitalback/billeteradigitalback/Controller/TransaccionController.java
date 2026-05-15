@@ -1,5 +1,6 @@
 package billeteradigitalback.billeteradigitalback.Controller;
 
+import billeteradigitalback.billeteradigitalback.Dto.request.RetiroDTO;
 import billeteradigitalback.billeteradigitalback.Model.Transaccion;
 import billeteradigitalback.billeteradigitalback.Service.TransaccionService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -48,13 +49,14 @@ public class TransaccionController {
     // Body: { "billeteraOrigenId": 1, "monto": 200.00, "descripcion": "..." }
     // =========================================================
     @PostMapping("/retirar")
-    public ResponseEntity<?> retirar(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<?> retirar(@RequestBody RetiroDTO request) {
         try {
-            Long billeteraId = Long.valueOf(body.get("billeteraOrigenId").toString());
-            BigDecimal monto = new BigDecimal(body.get("monto").toString());
-            String descripcion = body.getOrDefault("descripcion", "Retiro").toString();
+            Transaccion tx = transaccionService.retirar(
+              request.getBilleteraId(),
+              request.getValor(),
+              "Retiro"
+            );
 
-            Transaccion tx = transaccionService.retirar(billeteraId, monto, descripcion);
             return ResponseEntity.status(HttpStatus.CREATED).body(tx);
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));

@@ -25,37 +25,40 @@ public class Billetera {
     @Column(nullable = false)
     private BigDecimal saldo;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
     @Column(nullable = false)
     private boolean activa;
 
     @Column(nullable = false)
     private BigDecimal limiteTransaccion;
 
-    //Corregir porque esta estructura toca corregirla
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     @OneToMany(mappedBy = "billeteraOrigen")
     private List<Transaccion> transaccionesOrigen = new ArrayList<>();
 
+    @OneToMany(mappedBy = "billeteraDestino")
+    private List<Transaccion> transaccionesDestino = new ArrayList<>();
+
+    @OneToMany(mappedBy = "billeteraOrigen")
+    private List<OperacionProgramada> operacionesOrigen = new ArrayList<>();
+
+    @OneToMany(mappedBy = "billeteraDestino")
+    private List<OperacionProgramada> operacionesDestino = new ArrayList<>();
+
     // Constructor vacío
-    public Billetera() {
-    }
+    public Billetera() {}
 
     // Constructor completo
-    public Billetera(String nombre,
-                     TipoBilletera tipoBilletera,
-                     Usuario usuario,
-                     boolean activa,
-                     BigDecimal limiteTransaccion) {
 
+    public Billetera(String nombre, TipoBilletera tipoBilletera, BigDecimal saldo, boolean activa, BigDecimal limiteTransaccion, Usuario usuario) {
         this.nombre = nombre;
         this.tipoBilletera = tipoBilletera;
-        this.usuario = usuario;
+        this.saldo = saldo;
         this.activa = activa;
         this.limiteTransaccion = limiteTransaccion;
-        this.saldo = BigDecimal.ZERO;
+        this.usuario = usuario;
     }
 
     // GETTERS Y SETTERS
@@ -88,14 +91,6 @@ public class Billetera {
         this.saldo = saldo;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public boolean isActiva() {
         return activa;
     }
@@ -112,11 +107,43 @@ public class Billetera {
         this.limiteTransaccion = limiteTransaccion;
     }
 
-    public List<Transaccion> getTransacciones() {
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Transaccion> getTransaccionesOrigen() {
         return transaccionesOrigen;
     }
 
-    public void setTransacciones(List<Transaccion> transaccionesOrigen) {
+    public void setTransaccionesOrigen(List<Transaccion> transaccionesOrigen) {
         this.transaccionesOrigen = transaccionesOrigen;
+    }
+
+    public List<Transaccion> getTransaccionesDestino() {
+        return transaccionesDestino;
+    }
+
+    public void setTransaccionesDestino(List<Transaccion> transaccionesDestino) {
+        this.transaccionesDestino = transaccionesDestino;
+    }
+
+    public List<OperacionProgramada> getOperacionesOrigen() {
+        return operacionesOrigen;
+    }
+
+    public void setOperacionesOrigen(List<OperacionProgramada> operacionesOrigen) {
+        this.operacionesOrigen = operacionesOrigen;
+    }
+
+    public List<OperacionProgramada> getOperacionesDestino() {
+        return operacionesDestino;
+    }
+
+    public void setOperacionesDestino(List<OperacionProgramada> operacionesDestino) {
+        this.operacionesDestino = operacionesDestino;
     }
 }
