@@ -2,70 +2,66 @@ package billeteradigitalback.billeteradigitalback.Dto.response;
 
 import billeteradigitalback.billeteradigitalback.Enums.EstadoTransaccion;
 import billeteradigitalback.billeteradigitalback.Enums.TipoTransaccion;
+import billeteradigitalback.billeteradigitalback.Model.Transaccion;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TransaccionResponseDTO {
 
     private Long id;
+    private String tipo;
+    private BigDecimal monto;
+    private Integer puntosGenerados;
 
-    private LocalDateTime fecha;
+    private Long billeteraOrigenId;
+    private Long billeteraDestinoId;
 
-    private TipoTransaccion tipoTransaccion;
+    public TransaccionResponseDTO() {
+    }
 
-    private double valor;
+    public TransaccionResponseDTO(Transaccion tx) {
 
-    private EstadoTransaccion estado;
+        this.id = tx.getPid();
 
-    private int puntosGenerados;
+        this.tipo = tx.getTipoTransaccion() != null
+                ? tx.getTipoTransaccion().name()
+                : null;
 
-    public TransaccionResponseDTO() {}
+        this.monto = tx.getValor();
+
+        this.puntosGenerados = tx.getPuntosGenerados();
+
+        this.billeteraOrigenId = tx.getBilleteraOrigen() != null
+                ? tx.getBilleteraOrigen().getId()
+                : null;
+
+        this.billeteraDestinoId = tx.getBilleteraDestino() != null
+                ? tx.getBilleteraDestino().getId()
+                : null;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getTipo() {
+        return tipo;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
+    public BigDecimal getMonto() {
+        return monto;
     }
 
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
-    public TipoTransaccion getTipoTransaccion() {
-        return tipoTransaccion;
-    }
-
-    public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
-        this.tipoTransaccion = tipoTransaccion;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public EstadoTransaccion getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoTransaccion estado) {
-        this.estado = estado;
-    }
-
-    public int getPuntosGenerados() {
+    public Integer getPuntosGenerados() {
         return puntosGenerados;
     }
 
-    public void setPuntosGenerados(int puntosGenerados) {
-        this.puntosGenerados = puntosGenerados;
+    public Long getBilleteraOrigenId() {
+        return billeteraOrigenId;
+    }
+
+    public Long getBilleteraDestinoId() {
+        return billeteraDestinoId;
     }
 }

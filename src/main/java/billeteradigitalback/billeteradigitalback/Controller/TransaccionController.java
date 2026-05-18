@@ -1,6 +1,7 @@
 package billeteradigitalback.billeteradigitalback.Controller;
 
 import billeteradigitalback.billeteradigitalback.Dto.request.RetiroDTO;
+import billeteradigitalback.billeteradigitalback.Dto.response.TransaccionResponseDTO;
 import billeteradigitalback.billeteradigitalback.Model.Transaccion;
 import billeteradigitalback.billeteradigitalback.Service.TransaccionService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,7 +47,7 @@ public class TransaccionController {
     // =========================================================
     // POST /api/transacciones/retirar
     // Retirar saldo de una billetera
-    // Body: { "billeteraOrigenId": 1, "monto": 200.00, "descripcion": "..." }
+    // Body: { "billeteraOrigenId": 1, "monto": 200.00}
     // =========================================================
     @PostMapping("/retirar")
     public ResponseEntity<?> retirar(@RequestBody RetiroDTO request) {
@@ -57,7 +58,8 @@ public class TransaccionController {
               "Retiro"
             );
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(tx);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new TransaccionResponseDTO(tx));
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

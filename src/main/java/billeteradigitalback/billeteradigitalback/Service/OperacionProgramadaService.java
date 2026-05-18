@@ -113,6 +113,7 @@ public class OperacionProgramadaService {
         op.setDiasRecurrencia(diasRecurrencia);
         op.setEstado(EstadoOperacionProgramada.PENDIENTE);
         op.setPrioridad(calcularPrioridad(fechaFutura));
+        op.setUsuario(origen.getUsuario());
 
         OperacionProgramada guardada = operacionRepository.save(op);
 
