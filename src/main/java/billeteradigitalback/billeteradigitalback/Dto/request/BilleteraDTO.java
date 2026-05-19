@@ -4,7 +4,9 @@ import billeteradigitalback.billeteradigitalback.Enums.TipoBilletera;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class CrearBilleteraDTO {
+import java.math.BigDecimal;
+
+public class BilleteraDTO {
 
     @NotBlank
     private String nombre;
@@ -15,7 +17,10 @@ public class CrearBilleteraDTO {
     @NotNull
     private Long usuarioId;
 
-    public CrearBilleteraDTO() {}
+    @NotNull
+    private BigDecimal limite;
+
+    public BilleteraDTO() {}
 
     public String getNombre() {
         return nombre;
@@ -39,5 +44,13 @@ public class CrearBilleteraDTO {
 
     public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
+    }
+
+    public BigDecimal getLimite() {
+        return limite;
+    }
+
+    public void setLimite(BigDecimal limite) {
+        this.limite = limite;
     }
 }

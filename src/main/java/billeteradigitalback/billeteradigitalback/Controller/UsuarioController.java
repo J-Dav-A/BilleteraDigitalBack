@@ -1,5 +1,6 @@
 package billeteradigitalback.billeteradigitalback.Controller;
 
+import billeteradigitalback.billeteradigitalback.Dto.request.UsuarioDTO;
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
 import billeteradigitalback.billeteradigitalback.Model.Usuario;
 import billeteradigitalback.billeteradigitalback.Service.UsuarioService;
@@ -28,9 +29,9 @@ public class UsuarioController {
     // Body: { "nombre": "...", "correo": "...", "password": "..." }
     // =========================================================
     @PostMapping
-    public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registrar(@RequestBody UsuarioDTO request) {
         try {
-            Usuario creado = usuarioService.registrarUsuario(usuario);
+            Usuario creado = usuarioService.registrarUsuario(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(creado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -84,7 +85,16 @@ public class UsuarioController {
                                         @RequestBody Map<String, String> body) {
         try {
             String nuevoNombre = body.get("nombre");
-            return ResponseEntity.ok(usuarioService.actualizarUsuario(id, nuevoNombre));
+            String nuevaCedula = body.get("cedula");
+            String nuevoTelefono = body.get("telefono");
+            String nuevoCorreo = body.get("correo");
+            String nuevoPassword = body.get("password");
+            return ResponseEntity.ok(usuarioService.actualizarUsuario(id,
+                    nuevoNombre,
+                    nuevaCedula,
+                    nuevoTelefono,
+                    nuevoCorreo,
+                    nuevoPassword));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

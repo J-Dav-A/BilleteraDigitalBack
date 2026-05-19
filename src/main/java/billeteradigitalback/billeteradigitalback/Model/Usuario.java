@@ -1,6 +1,7 @@
 package billeteradigitalback.billeteradigitalback.Model;
 
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +25,12 @@ public class Usuario {
     private String nombre;
 
     @Column(nullable = false, unique = true)
+    private String cedula;
+
+    @Column(nullable = false)
+    private String telefono;
+
+    @Column(nullable = false, unique = true)
     private String correo;
 
     @Column(nullable = false)
@@ -42,6 +49,7 @@ public class Usuario {
     @Column(nullable = false)
     private boolean activo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Billetera> billeteras = new HashSet<>();
 
@@ -54,15 +62,13 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<AuditoriaRiesgo> auditorias = new ArrayList<>();
 
-    // =========================
-    // CONSTRUCTORES
-    // =========================
-
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, String password, int puntos, NivelUsuario nivelUsuario, LocalDateTime fechaRegistro, boolean activo) {
+    public Usuario(String nombre, String cedula, String telefono, String correo, String password, int puntos, NivelUsuario nivelUsuario, LocalDateTime fechaRegistro, boolean activo) {
         this.nombre = nombre;
+        this.cedula = cedula;
+        this.telefono = telefono;
         this.correo = correo;
         this.password = password;
         this.puntos = puntos;
@@ -167,21 +173,19 @@ public class Usuario {
         this.auditorias = auditorias;
     }
 
+    public String getCedula() {
+        return cedula;
+    }
 
-    // =========================
-    // TO STRING
-    // =========================
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", correo='" + correo + '\'' +
-                ", nivelUsuario=" + nivelUsuario +
-                ", Puntos=" + puntos +
-                ", fechaRegistro=" + fechaRegistro +
-                ", activo=" + activo +
-                '}';
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

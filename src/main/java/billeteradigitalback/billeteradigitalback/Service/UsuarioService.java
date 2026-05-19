@@ -1,5 +1,6 @@
 package billeteradigitalback.billeteradigitalback.Service;
 
+import billeteradigitalback.billeteradigitalback.Dto.request.UsuarioDTO;
 import billeteradigitalback.billeteradigitalback.Enums.NivelUsuario;
 import billeteradigitalback.billeteradigitalback.Enums.TipoAlerta;
 import billeteradigitalback.billeteradigitalback.Model.Usuario;
@@ -78,12 +79,20 @@ public class UsuarioService {
     // CRUD
     // =========================================================
 
-    public Usuario registrarUsuario(Usuario usuario) {
+    public Usuario registrarUsuario(UsuarioDTO usuarioDto) {
+
         // Validar correo único
-        if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
+        if (usuarioRepository.existsByCorreo(usuarioDto.getCorreo())) {
             throw new IllegalArgumentException(
-                    "Ya existe un usuario con el correo: " + usuario.getCorreo());
+                    "Ya existe un usuario con el correo: " + usuarioDto.getCorreo());
         }
+        Usuario usuario = new Usuario();
+
+        usuario.setNombre(usuarioDto.getNombre());
+        usuario.setCedula(usuarioDto.getCedula());
+        usuario.setTelefono(usuarioDto.getTelefono());
+        usuario.setCorreo(usuarioDto.getCorreo());
+        usuario.setPassword(usuarioDto.getPassword());
 
         // Valores por defecto
         usuario.setFechaRegistro(LocalDateTime.now());
@@ -91,16 +100,12 @@ public class UsuarioService {
         usuario.setNivelUsuario(NivelUsuario.BRONCE);
         usuario.setPuntos(0);
 
-        // 1. Guardar en BD
         Usuario guardado = usuarioRepository.save(usuario);
 
-        // 2. Insertar en tabla hash — O(1)
         cacheUsuarios.put(guardado.getId(), guardado);
 
-        // 3. Insertar en árbol con 0 puntos — O(log n)
         insertarEnArbol(guardado);
 
-        // 4. Alerta de bienvenida
         alertaService.crearAlerta(
                 guardado,
                 "¡Bienvenido a la plataforma, " + guardado.getNombre() + "!",
@@ -133,9 +138,13 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario actualizarUsuario(Long id, String nuevoNombre) {
+    public Usuario actualizarUsuario(Long id, String nuevoNombre, String nuevaCedula, String nuevoTelefono, String nuevoCorreo, String nuevoPassword) {
         Usuario usuario = buscarPorId(id);
         usuario.setNombre(nuevoNombre);
+        usuario.setCedula(nuevaCedula);
+        usuario.setTelefono(nuevoTelefono);
+        usuario.setCorreo(nuevoCorreo);
+        usuario.setPassword(nuevoPassword);
 
         Usuario guardado = usuarioRepository.save(usuario);
 

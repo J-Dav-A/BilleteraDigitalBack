@@ -1,11 +1,16 @@
 package billeteradigitalback.billeteradigitalback.Controller;
 
+import billeteradigitalback.billeteradigitalback.Dto.request.BilleteraDTO;
 import billeteradigitalback.billeteradigitalback.Enums.TipoBilletera;
 import billeteradigitalback.billeteradigitalback.Model.Billetera;
+import billeteradigitalback.billeteradigitalback.Model.Usuario;
 import billeteradigitalback.billeteradigitalback.Service.BilleteraService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import billeteradigitalback.billeteradigitalback.Dto.response.AuthResponseDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,18 +33,43 @@ public class BilleteraController {
     // Body: { "usuarioId": 1, "nombre": "Ahorros", "tipo": "AHORRO", "limite": 1000.00 }
     // =========================================================
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody Map<String, Object> body) {
-        try {
-            Long usuarioId = Long.valueOf(body.get("usuarioId").toString());
-            String nombre  = body.get("nombre").toString();
-            TipoBilletera tipo = TipoBilletera.valueOf(
-                    body.get("tipo").toString().toUpperCase());
-            BigDecimal limite = new BigDecimal(body.get("limite").toString());
+    public ResponseEntity<?> crear(
 
-            Billetera creada = billeteraService.crearBilletera(usuarioId, nombre, tipo, limite);
-            return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+            @RequestBody BilleteraDTO request
+    ) {
+
+        try {
+
+            Usuario usuario = (Usuario)
+
+                    SecurityContextHolder
+                            .getContext()
+                            .getAuthentication()
+                            .getPrincipal();
+            System.out.println("USUARIO AUTENTICADO");
+            Billetera creada =
+                    billeteraService.crearBilletera(
+
+                            usuario.getId(),
+
+                            request.getNombre(),
+
+                            request.getTipoBilletera(),
+
+                            request.getLimite()
+                    );
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(Map.of(
+                            "mensaje", "Billetera creada",
+                            "id", creada.getId()));
+
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 

@@ -4,11 +4,19 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CrearUsuarioDTO {
+public class UsuarioDTO {
 
     @NotBlank
     @Size(min = 3, max = 100)
     private String nombre;
+
+    @NotBlank
+    @Size(min = 6, max = 10)
+    private String cedula;
+
+    @NotBlank
+    @Size(min = 10, max = 10)
+    private String telefono;
 
     @Email
     @NotBlank
@@ -18,7 +26,7 @@ public class CrearUsuarioDTO {
     @Size(min = 6, max = 100)
     private String password;
 
-    public CrearUsuarioDTO() {}
+    public UsuarioDTO() {}
 
     public String getNombre() {
         return nombre;
@@ -42,5 +50,21 @@ public class CrearUsuarioDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 }
